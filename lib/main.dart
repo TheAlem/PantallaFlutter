@@ -42,7 +42,7 @@ class MyHomePage extends StatelessWidget {
         children: [
           Container(
             height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.fromLTRB(40, 0, 0, 0), // Añadido padding
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFFD21EE2), Color(0xFF960FD4)],
@@ -63,14 +63,21 @@ class MyHomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _MenuOption("Designer", isSelected: true),
-                _MenuOption("Category"),
-                _MenuOption("Attention"),
+                _MenuOption(
+                  "Category",
+                  topPadding: 8.0,
+                ),
+                _MenuOption(
+                  "Attention",
+                  topPadding: 8.0,
+                ),
               ],
             ),
           ),
+          SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: 5,
               itemBuilder: (context, index) {
                 return _CardItem();
               },
@@ -85,32 +92,37 @@ class MyHomePage extends StatelessWidget {
 class _MenuOption extends StatelessWidget {
   final String title;
   final bool isSelected;
+  final double topPadding; // Nuevo parámetro
 
-  _MenuOption(this.title, {this.isSelected = false});
+  _MenuOption(this.title,
+      {this.isSelected = false, this.topPadding = 0}); // Valor por defecto
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: isSelected ? 20 : 16,
-              color: isSelected ? Colors.white : Colors.white70,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5, // Ajusta el espacio entre las letras
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.only(top: topPadding), // Uso del parámetro
+        height: 50,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: isSelected ? 23 : 16,
+                color: isSelected ? Colors.white : Colors.white70,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.4,
+              ),
             ),
-          ),
-          if (isSelected)
-            Container(
-              width: 60,
-              height: 2,
-              color: Colors.white,
-            ),
-        ],
+            if (isSelected)
+              Container(
+                width: 94,
+                height: 3.2,
+                color: Colors.white,
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -119,72 +131,120 @@ class _MenuOption extends StatelessWidget {
 class _CardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(10),
-      color: Color(0xFFD6E4FF),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      elevation: 5,
-      shadowColor: Colors.blue[700]!.withOpacity(0.2),
-      child: Padding(
-        padding: EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircleAvatar(
+    return Container(
+      margin: EdgeInsets.all(8),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        elevation: 5,
+        shadowColor: Color.fromARGB(255, 30, 87, 145).withOpacity(0.7),
+        child: Container(
+          height: 150,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 195, 190, 253),
+                Color.fromARGB(255, 139, 130, 221)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 12,
+                left: 12,
+                child: CircleAvatar(
                   backgroundImage: AssetImage("path_to_image"),
-                  radius: 24,
+                  radius: 30,
                 ),
-                Row(
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 80),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.circle, color: Colors.white, size: 5),
-                    SizedBox(width: 3),
-                    Icon(Icons.circle, color: Colors.white, size: 5),
-                    SizedBox(width: 3),
-                    Icon(Icons.circle, color: Colors.white, size: 5),
+                    Text(
+                      "Designer Name",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Title",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10, top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          _NumberLabel("2342", "Popularity"),
+                          SizedBox(width: 18),
+                          _NumberLabel("4736", "Likes"),
+                          SizedBox(width: 18),
+                          _NumberLabel("136", "Followed"),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ],
-            ),
-            SizedBox(height: 8),
-            Text(
-              "Designer Name",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            SizedBox(height: 4),
-            Text(
-              "Title",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+              Positioned(
+                top: 30,
+                right: 12,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.circle, color: Colors.white, size: 5),
+                        SizedBox(width: 3),
+                        Icon(Icons.circle, color: Colors.white, size: 5),
+                        SizedBox(width: 3),
+                        Icon(Icons.circle, color: Colors.white, size: 5),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "5",
+                      style: TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                    Text(
+                      "Ranking",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _NumberLabel("2342", "Popularity"),
-                _NumberLabel("4736", "Likes"),
-                _NumberLabel("136", "Followed"),
-              ],
-            ),
-            SizedBox(height: 12),
-            Text(
-              "5",
-              style: TextStyle(fontSize: 24, color: Colors.white),
-            ),
-            Text(
-              "Ranking",
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
+              Positioned(
+                top: -3,
+                bottom: -38,
+                right: -5,
+                child: Container(
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(140),
+                      bottomLeft: Radius.circular(100),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
