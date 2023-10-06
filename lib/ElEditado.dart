@@ -7,8 +7,11 @@ class MyHomePage extends StatelessWidget {
   final List<Map<String, dynamic>> cardData = [
     {
       'designerName': 'David Borg',
-      'description':
-          'Inge aqui tiene este edit para que pueda realizar el cambio, un 100 diria',
+      'title': 'Title: Flying Wings',
+      'popularity': '2342',
+      'likes': '4736',
+      'followed': '136',
+      'ranking': '1',
       'fecha': '05-10-2023',
       'fechatext': 'Fecha',
       'image': 'assets/images/Perfil1.jpeg',
@@ -155,7 +158,6 @@ class MyHomePage extends StatelessWidget {
                 return CardItem(
                   designerName: data['designerName'] ?? '',
                   title: data['title'] ?? '',
-                  description: data['description'] ?? '',
                   popularity: data['popularity'] ?? '',
                   likes: data['likes'] ?? '',
                   followed: data['followed'] ?? '',
@@ -178,7 +180,6 @@ class MyHomePage extends StatelessWidget {
 class CardItem extends StatelessWidget {
   final String designerName;
   final String title;
-  final String description;
   final String popularity;
   final String likes;
   final String followed;
@@ -193,7 +194,6 @@ class CardItem extends StatelessWidget {
     super.key,
     required this.designerName,
     required this.title,
-    required this.description,
     required this.popularity,
     required this.likes,
     required this.followed,
@@ -256,7 +256,7 @@ class CardItem extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 5),
                     Text(
                       title,
                       style: const TextStyle(
@@ -299,28 +299,27 @@ class CardItem extends StatelessWidget {
                       style: const TextStyle(fontSize: 24, color: Colors.white),
                     ),
                     const Text(
-                      "",
+                      "Ranking",
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
               ),
               // Positioned for the number labels
-              
               Positioned(
-                bottom: 50,
-                left: 100,
-                right: 100,
-                child: Text(
-                  description,
-                  textAlign: TextAlign.center, // Alinea el texto al centro
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                  ),
+                bottom: 40,
+                left: (MediaQuery.of(context).size.width - 155) / 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    _NumberLabel(popularity, "Popularity"),
+                    const SizedBox(width: 12),
+                    _NumberLabel(likes, "Likes"),
+                    const SizedBox(width: 12),
+                    _NumberLabel(followed, "Followed"),
+                  ],
                 ),
-                ),
-              
+              ),
               Positioned(
                 bottom: -5,
                 left: 25,
